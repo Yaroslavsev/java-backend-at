@@ -1,13 +1,16 @@
 package ru.geekbrains.javabackendat;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 
+@DisplayName("Отправка невалидных данных методом POST")
 public class PostTextInsteadImageTests extends BaseTest {
 
+    @DisplayName("Отправка текста вместо изображения")
     @Test
     void postTextInsteadImageTest() {
         given()

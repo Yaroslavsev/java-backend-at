@@ -1,13 +1,16 @@
 package ru.geekbrains.javabackendat;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 
+@DisplayName("Тестирование метода GET")
 public class GetImageTests extends BaseTest{
 
+    @DisplayName("Получение изображения")
     @Test
     void getImageTest() {
         given()
@@ -25,6 +28,7 @@ public class GetImageTests extends BaseTest{
                 .body("data.id", is("veownGF"));
     }
 
+    @DisplayName("Пустой запрос на получение изображения")
     @Test
     void getEmptyRequestTest() {
         given()
@@ -42,6 +46,7 @@ public class GetImageTests extends BaseTest{
                 .body("data.error", containsString("An image ID is required for a GET request to /image"));
     }
 
+    @DisplayName("Получение несуществующего изображения")
     @Test
     void getNotExistingImageTest() {
         given()

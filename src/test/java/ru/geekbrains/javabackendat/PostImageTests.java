@@ -2,6 +2,7 @@ package ru.geekbrains.javabackendat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Base64;
@@ -9,6 +10,7 @@ import java.util.Base64;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.*;
 
+@DisplayName("Тестирование метода POST")
 public class PostImageTests extends BaseTest {
 
     private String uploadedImageId;
@@ -20,6 +22,7 @@ public class PostImageTests extends BaseTest {
         fileString = Base64.getEncoder().encodeToString(fileContent);
     }
 
+    @DisplayName("Загрузка изображения через base64")
     @Test
     void postImageBase64Test() {
         uploadedImageId = given()
@@ -45,6 +48,7 @@ public class PostImageTests extends BaseTest {
                 .getString("data.id");
     }
 
+    @DisplayName("Загрузка изображения через URL")
     @Test
     void postImageURLTest() {
         uploadedImageId = given()

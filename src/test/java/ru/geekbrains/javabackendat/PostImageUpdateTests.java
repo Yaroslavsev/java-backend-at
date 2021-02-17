@@ -2,6 +2,7 @@ package ru.geekbrains.javabackendat;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Base64;
@@ -9,6 +10,7 @@ import java.util.Base64;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.*;
 
+@DisplayName("Тестирование обновления информации методом POST")
 public class PostImageUpdateTests extends BaseTest {
 
     private static String uploadedImageId;
@@ -38,6 +40,7 @@ public class PostImageUpdateTests extends BaseTest {
                 .getString("data.id");
     }
 
+    @DisplayName("Обновление заголовка и описания изображения")
     @Test
     void postImageParamsUpdateTest() {
         given()
@@ -57,6 +60,7 @@ public class PostImageUpdateTests extends BaseTest {
                 .body("success", is(true));
     }
 
+    @DisplayName("Добавление изображения в избранное")
     @Test
     void postImageFavoriteUpdateTest() {
         given()

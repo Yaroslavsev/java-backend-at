@@ -1,5 +1,6 @@
 package ru.geekbrains.javabackendat;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,6 +24,7 @@ public class BaseTest {
         token = prop.getProperty("token");
 
         RestAssured.baseURI = prop.getProperty("base.url");
+        RestAssured.filters(new AllureRestAssured());
     }
 
     static void loadProperties() {

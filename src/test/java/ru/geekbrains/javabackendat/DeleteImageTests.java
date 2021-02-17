@@ -1,5 +1,6 @@
 package ru.geekbrains.javabackendat;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Base64;
@@ -8,8 +9,10 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
+@DisplayName("Тестирование метода DELETE")
 public class DeleteImageTests extends BaseTest {
 
+    @DisplayName("Удаление изображения через ID")
     @Test
     void authedDeleteImageTest() {
         byte[] fileContent = getFileContent();
@@ -47,6 +50,7 @@ public class DeleteImageTests extends BaseTest {
                 .body("success", is(true));
     }
 
+    @DisplayName("Удаление изображения через deleteID")
     @Test
     void unauthedDeleteImageTest() {
         byte[] fileContent = getFileContent();
