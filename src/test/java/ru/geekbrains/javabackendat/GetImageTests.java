@@ -2,6 +2,8 @@ package ru.geekbrains.javabackendat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.EnumSource;
+import ru.geekbrains.javabackendat.utils.listOfIdsForGetTests;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -12,32 +14,30 @@ public class GetImageTests extends BaseTest{
 
     @DisplayName("Получение изображения")
     @Test
+    @EnumSource(listOfIdsForGetTests.class)
     void getImageTest() {
         given()
-                .log()
-                .all()
-                .headers("Authorization", token)
+                .spec(reqSpec)
 
                 .when()
-                .get("veownGF")
+                .get(listOfIdsForGetTests.VALID_ID.imageId)
                 .prettyPeek()
 
                 .then()
+                .body("data.id", is(listOfIdsForGetTests.VALID_ID.imageId))
                 .statusCode(200)
-                .body("success", is(true))
-                .body("data.id", is("veownGF"));
+                .body("success", is(true));
     }
 
     @DisplayName("Пустой запрос на получение изображения")
     @Test
+    @EnumSource(listOfIdsForGetTests.class)
     void getEmptyRequestTest() {
         given()
-                .log()
-                .all()
-                .headers("Authorization", token)
+                .spec(reqSpec)
 
                 .when()
-                .get()
+                .get(listOfIdsForGetTests.EMPTY_ID.imageId)
                 .prettyPeek()
 
                 .then()
@@ -48,14 +48,13 @@ public class GetImageTests extends BaseTest{
 
     @DisplayName("Получение несуществующего изображения")
     @Test
+    @EnumSource(listOfIdsForGetTests.class)
     void getNotExistingImageTest() {
         given()
-                .log()
-                .all()
-                .headers("Authorization", token)
+                .spec(reqSpec)
 
                 .when()
-                .get("2123820")
+                .get(listOfIdsForGetTests.NOT_EXISTING_ID.imageId)
                 .prettyPeek()
 
                 .then()

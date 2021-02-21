@@ -2,6 +2,8 @@ package ru.geekbrains.javabackendat;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -18,6 +20,8 @@ public class BaseTest {
     static String token;
     static final String INPUT_IMAGE_FILE_PATH = "white-moose-400x400.jpg";
 
+    protected static RequestSpecification reqSpec;
+
     @BeforeAll
     static void beforeAll() {
         loadProperties();
@@ -25,6 +29,10 @@ public class BaseTest {
 
         RestAssured.baseURI = prop.getProperty("base.url");
         RestAssured.filters(new AllureRestAssured());
+
+        reqSpec = new RequestSpecBuilder()
+                .addHeader("Authorization", token)
+                .build();
     }
 
     static void loadProperties() {

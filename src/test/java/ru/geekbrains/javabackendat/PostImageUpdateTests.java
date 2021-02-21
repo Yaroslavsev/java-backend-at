@@ -1,84 +1,69 @@
 package ru.geekbrains.javabackendat;
 
+import com.github.javafaker.Faker;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.ContentType;
+import io.restassured.specification.ResponseSpecification;
 import org.junit.jupiter.api.*;
-
-import java.util.Base64;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.*;
+import static steps.CommonRequest.uploadCommonImage;
 
 @DisplayName("Тестирование обновления информации методом POST")
 public class PostImageUpdateTests extends BaseTest {
 
     private static String uploadedImageId;
 
+    static ResponseSpecification postImageUpdateResSpec;
+
+    Faker faker = new Faker();
+
     @BeforeEach
     void setUp() {
-        byte[] fileContent = getFileContent();
-        String fileString = Base64.getEncoder().encodeToString(fileContent);
+        uploadedImageId = uploadCommonImage().getData().getId();
 
-        uploadedImageId = given()
-
-                .headers("Authorization", token)
-
-                .multiPart("image", fileString)
-
-                .when()
-                .post()
-
-                .then()
-                .statusCode(200)
-                .body("success", is(true))
-                .body("data.id", is(notNullValue()))
-
-                .extract()
-                .response()
-                .jsonPath()
-                .getString("data.id");
+        postImageUpdateResSpec = new ResponseSpecBuilder()
+                .expectStatusCode(200)
+                .expectStatusLine("HTTP/1.1 200 OK")
+                .expectContentType(ContentType.JSON)
+                .expectBody("success", is(true))
+                .build();
     }
 
     @DisplayName("Обновление заголовка и описания изображения")
     @Test
     void postImageParamsUpdateTest() {
         given()
-                .log()
-                .all()
-                .headers("Authorization", token)
+                .spec(reqSpec)
 
-                .multiPart("title", "Test moose title")
-                .multiPart("description", "Test moose long and meaningless description")
+                .multiPart("title", faker.rickAndMorty().character())
+                .multiPart("description", faker.rickAndMorty().quote())
 
                 .when()
                 .post(uploadedImageId)
-                .prettyPeek()
-
-                .then()
-                .statusCode(200)
-                .body("success", is(true));
+                .prettyPeek();
     }
 
     @DisplayName("Добавление изображения в избранное")
     @Test
     void postImageFavoriteUpdateTest() {
         given()
-                .log()
-                .all()
-                .headers("Authorization", token)
+                .spec(reqSpec)
 
                 .when()
                 .post("{uploadedImageId}/favorite", uploadedImageId)
                 .prettyPeek()
 
                 .then()
-                .statusCode(200)
-                .body("success", is(true))
+
                 .body("data", equalTo("favorited"));
     }
 
     @AfterEach
     void tearDown() {
         given()
-                .headers("Authorization", token)
+                .spec(reqSpec)
 
                 .when()
                 .delete(uploadedImageId)
