@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.*;
-import static steps.CommonRequest.uploadCommonImage;
+import static ru.geekbrains.javabackendat.steps.CommonRequest.uploadCommonImage;
 
 @DisplayName("Тестирование обновления информации методом POST")
 public class PostImageUpdateTests extends BaseTest {

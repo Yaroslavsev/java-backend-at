@@ -10,7 +10,7 @@ import ru.geekbrains.javabackendat.dto.PostImageResponse;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
-import static steps.CommonRequest.uploadCommonImage;
+import static ru.geekbrains.javabackendat.steps.CommonRequest.uploadCommonImage;
 
 @DisplayName("Позитивное тестирование метода DELETE")
 public class DeleteImagePositiveTests extends BaseTest {

@@ -1,4 +1,4 @@
-package steps;
+package ru.geekbrains.javabackendat.steps;
 
 import ru.geekbrains.javabackendat.dto.PostImageResponse;
 
